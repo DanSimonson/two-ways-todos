@@ -2,6 +2,8 @@
 
 import React, { Component } from "react";
 import './TodoItems.css'
+import FlipMove from "react-flip-move";
+
 class TodoItems extends Component {
     constructor(props) {
         super(props);
@@ -23,7 +25,9 @@ class TodoItems extends Component {
         return (
             <div>
                 <ul className="theList">
-                    {listItems}
+                    <FlipMove duration={250} easing="ease-out">
+                        {listItems}
+                    </FlipMove>
                 </ul>
             </div>
         );
