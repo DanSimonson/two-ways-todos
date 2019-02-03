@@ -14,25 +14,19 @@ class App extends Component {
       //second todo state
       userInput: '',
       list: [],
-      nextId: 0
+      //nextId: 0
     }
-
-    //this.addItem = this.addItem.bind(this);
   }
 
   addItem = (e) => {
     e.preventDefault();
     let newItem;
-    //console.log(this.inputElement.value)
     if (this.inputElement.value !== "") {
-      //console.log('input element: ', this.inputElement.value)
       newItem = {
         text: this.inputElement.value,
         key: Date.now()
       };
-      //console.log('newItem: ', newItem)
     }
-    //console.log('newItem: ', newItem)
     this.setState((prevState) => {
       return {
         items: prevState.items.concat(newItem)
@@ -60,14 +54,25 @@ class App extends Component {
     }
     newArray.push(aTodo)
     console.log('newArray: ', newArray)
-    this.setState({ list: newArray })
+    this.setState({ 
+      list: newArray,
+      userInput: ''
+     })
+    
 
   }
   handleChange = (e) => {
     this.setState({ userInput: e.target.value });
   }
-  remove = (id) => {
-    console.log('remove todo: ', id);
+  remove = (key) => {
+    //console.log('remove todo: ', id);
+    let filteredItems = this.state.list.filter((item) => {
+      return (item.key !== key);
+    });
+
+    this.setState({
+      items: filteredItems
+    });
   }
   /*end second todo list methods*/
   render() {
@@ -93,7 +98,7 @@ class App extends Component {
           {/*----second todo----*/}
           <div className='two App'>
             <Header />
-            <input type="text" value={this.state.userInput} onChange={this.handleChange} />
+            <input type="text" value={this.state.userInput} onChange={this.handleChange} placeholder="enter task" />
             <button className="btn btn-primary" onClick={() => this.addTodo(this.state.userInput)}>Add Item</button>
             {this.state.list.map((val) => {
               return (
