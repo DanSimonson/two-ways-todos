@@ -4,6 +4,7 @@ import './App.css';
 //import InputTodo from './components/InputTodo';
 import Header from './components/Header'
 import TodoItems from './TodoItems'
+import NewItems from './NewItems'
 //import TodoItem from './components/TodoItem'
 
 class App extends Component {
@@ -13,7 +14,7 @@ class App extends Component {
       items: [],
       //second todo state
       userInput: '',
-      list: [],
+      list: []
       //nextId: 0
     }
   }
@@ -100,19 +101,20 @@ class App extends Component {
             <Header />
             <input type="text" value={this.state.userInput} onChange={this.handleChange} placeholder="enter task" />
             <button className="btn btn-primary" onClick={() => this.addTodo(this.state.userInput)}>Add Item</button>
-            {this.state.list.map((val) => {
+            <NewItems newitems={this.state.list}/>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  /*{this.state.list.map((val) => {
               return (
                 <ul>
                   <l1 key={val.id}>{val.text}</l1>
                 </ul>
               );
             }
-            )}
-          </div>
-        </div>
-      </div>
-    );
-  }
+            )}*/
 }
 
 export default App;
