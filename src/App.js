@@ -13,8 +13,8 @@ class App extends Component {
       items: [],
       //second todo state
       userInput: '',
-      list: []
-
+      list: [],
+      nextId: 0
     }
 
     //this.addItem = this.addItem.bind(this);
@@ -52,13 +52,15 @@ class App extends Component {
   }
   /*****methods for second todo list*****/
   addTodo = (todoText) => {
-    //console.log('todo: ', todoText); 
-    let newArray = this.state.list;
-    newArray.push(todoText)
-    this.setState({
-      list: newArray,
-      userInput: ''
-    });
+    let newArray = this.state.list
+    let d = new Date();
+    let aTodo = {
+      text: todoText,
+      id: d
+    }
+    newArray.push(aTodo)
+    console.log('newArray: ', newArray)
+    this.setState({ list: newArray })
 
   }
   handleChange = (e) => {
@@ -94,10 +96,9 @@ class App extends Component {
             <input type="text" value={this.state.userInput} onChange={this.handleChange} />
             <button className="btn btn-primary" onClick={() => this.addTodo(this.state.userInput)}>Add Item</button>
             {this.state.list.map((val) => {
-
               return (
                 <ul>
-                  <l1>{val}</l1>
+                  <l1 key={val.id}>{val.text}</l1>
                 </ul>
               );
             }
