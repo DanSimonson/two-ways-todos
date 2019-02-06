@@ -15,8 +15,8 @@ class App extends Component {
       //second todo state
       userInput: '',
       list: []
-      //nextId: 0
     }
+    this.remove = this.remove.bind(this, 'Parameter');
   }
 
   addItem = (e) => {
@@ -54,25 +54,26 @@ class App extends Component {
       id: d
     }
     newArray.push(aTodo)
-    console.log('newArray: ', newArray)
-    this.setState({ 
+    //console.log('newArray: ', newArray)
+    this.setState({
       list: newArray,
       userInput: ''
-     })
-    
-
+    })
   }
   handleChange = (e) => {
     this.setState({ userInput: e.target.value });
   }
-  remove = (key) => {
-    //console.log('remove todo: ', id);
+  remove = (todo, e) => {
+    //console.log('todo: ', TodoItems)
+    //console.log('todo text', e.text)
+    //console.log('todo id', e.id)
+    ///console.log('todo', {this.state.todo})
     let filteredItems = this.state.list.filter((item) => {
-      return (item.key !== key);
+      return (item.id !== e.id);
     });
 
     this.setState({
-      items: filteredItems
+      list: filteredItems
     });
   }
   /*end second todo list methods*/
@@ -101,7 +102,10 @@ class App extends Component {
             <Header />
             <input type="text" value={this.state.userInput} onChange={this.handleChange} placeholder="enter task" />
             <button className="btn btn-primary" onClick={() => this.addTodo(this.state.userInput)}>Add Item</button>
-            <NewItems newitems={this.state.list}/>
+            <ul>
+              {this.state.list.map((todo) => <li onClick={(e) => this.remove(todo, e)} key={todo.id}>{todo.text}</li>)}
+            </ul>
+            {/*<NewItems newitems={this.state.list} updateParentID={this.updateID}/>*/}
           </div>
         </div>
       </div>
