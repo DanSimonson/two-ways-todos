@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
 import './App.css';
-//import InputTodo from './components/InputTodo';
 import Header from './components/Header'
 import TodoItems from './TodoItems'
-import NewItems from './NewItems'
+import FlipMove from "react-flip-move";
+//import NewItems from './NewItems'
+//import logo from './logo.svg';
 //import TodoItem from './components/TodoItem'
-
+//import InputTodo from './components/InputTodo';
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
+      todos: [],
       //second todo state
       userInput: '',
       list: []
@@ -21,28 +21,27 @@ class App extends Component {
 
   addItem = (e) => {
     e.preventDefault();
-    let newItem;
+    let newTodo;
     if (this.inputElement.value !== "") {
-      newItem = {
+      newTodo = {
         text: this.inputElement.value,
         key: Date.now()
       };
     }
     this.setState((prevState) => {
       return {
-        items: prevState.items.concat(newItem)
+        todos: prevState.todos.concat(newTodo)
       };
     });
     this.inputElement.value = "";
-    //console.log('state items: ', this.state.items)
   }
   deleteItem = (key) => {
-    let filteredItems = this.state.items.filter((item) => {
-      return (item.key !== key);
+    let filteredItems = this.state.todos.filter((todo) => {
+      return (todo.key !== key);
     });
 
     this.setState({
-      items: filteredItems
+      todos: filteredItems
     });
   }
   /*****methods for second todo list*****/
@@ -54,7 +53,6 @@ class App extends Component {
       id: d
     }
     newArray.push(aTodo)
-    //console.log('newArray: ', newArray)
     this.setState({
       list: newArray,
       userInput: ''
@@ -64,10 +62,6 @@ class App extends Component {
     this.setState({ userInput: e.target.value });
   }
   remove = (todo, e) => {
-    //console.log('todo: ', TodoItems)
-    //console.log('todo text', e.text)
-    //console.log('todo id', e.id)
-    ///console.log('todo', {this.state.todo})
     let filteredItems = this.state.list.filter((item) => {
       return (item.id !== e.id);
     });
@@ -92,7 +86,7 @@ class App extends Component {
                   <button className='btn btn-primary' type="submit">Add Item</button>
                 </form>
               </div>
-              <TodoItems entries={this.state.items}
+              <TodoItems entries={this.state.todos}
                 delete={this.deleteItem} />
             </div>
           </div>
@@ -100,12 +94,15 @@ class App extends Component {
           {/*----second todo----*/}
           <div className='two App'>
             <Header />
-            <input type="text" value={this.state.userInput} onChange={this.handleChange} placeholder="enter task" />
-            <button className="btn btn-primary" onClick={() => this.addTodo(this.state.userInput)}>Add Item</button>
-            <ul>
-              {this.state.list.map((todo) => <li onClick={(e) => this.remove(todo, e)} key={todo.id}>{todo.text}</li>)}
+            <input className='myInput' type="text" value={this.state.userInput} onChange={this.handleChange} placeholder="enter task" />
+            <button className="btn btn-primary myBtn" onClick={() => this.addTodo(this.state.userInput)}>Add Item</button>
+            <ul className='mapped-todos'>
+              <FlipMove duration={250} easing="ease-out">
+                {this.state.list.map((todo) =>
+                  <li className='styleLi' onClick={(e) => this.remove(todo, e)} key={todo.id}>{todo.text}
+                  </li>)}
+              </FlipMove>
             </ul>
-            {/*<NewItems newitems={this.state.list} updateParentID={this.updateID}/>*/}
           </div>
         </div>
       </div>
